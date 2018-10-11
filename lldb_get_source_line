@@ -1,0 +1,14 @@
+First you need to find the address of the method itself.
+
+(lldb) image lookup -v -F "-[ViewController myMethod]"
+"range = [0x000708c0-0x00070c6c)"
+(where 0x000708c0 is address of method)
+
+Now to add the given offset of 47, just use LLDB to do that math for you:
+
+(lldb) p/x 0x000708c0 + 47
+(int) $0 = 0x000708ef
+and you get your answer, the offending line is on 0x000708ef
+
+(lldb) source list -a `addr + offset`
+(lldb) source list -a `0x000708c0 + 47`
