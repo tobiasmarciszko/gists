@@ -26,8 +26,6 @@ canvas {
     ca = Math.cos(a)
     sa = Math.sin(a)
 
-    start = {x: 0, y: 0, z: 5}
-
     cube = {
             a: {x:-1, y:-1, z:4},
             b: {x:1,  y:-1, z:4}, 
@@ -39,13 +37,16 @@ canvas {
             dz: {x:1, y:1, z:6},
         }
 
+    t = {}
+    p = []
+
 function w(p) {
     return { x: p.x / p.z * 320 + 160, 
              y: p.y / p.z * 320 + 120
         }
 }
 
-function rx(p) {
+function r(p) {
     z = p.z - 5
     y = p.y
     x = p.x
@@ -61,10 +62,10 @@ function rx(p) {
 
 function u() {
     c.clearRect(0, 0, 320, 240)
-    t = {}
+    
 
     Object.keys(cube).forEach(e => { 
-        rx(cube[e])
+        r(cube[e])
         t[e] = w(cube[e])
     })
 
