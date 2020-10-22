@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <div class="p">
     <canvas id="c" width="320" height="240">
@@ -27,17 +26,17 @@ canvas {
     ca = Math.cos(a)
     sa = Math.sin(a)
 
-    start = {x: 0, y: 0, z: 5, size: 2}
+    start = {x: 0, y: 0, z: 5}
 
     cube = {
-            bl: {x:-1, y:-1, z: 4},
-            br: {x:1, y:-1, z:4}, 
-            tl: {x:-1, y:+1, z:4}, 
-            tr: {x:1, y:+1, z:4}, 
-            blz: {x:-1, y:-1, z:6},
-            brz: {x:+1, y:-1, z:6},
-            tlz: {x:-1, y:+1, z:6}, 
-            trz: {x:+1, y:+1, z:6},
+            a: {x:-1, y:-1, z:4},
+            b: {x:1,  y:-1, z:4}, 
+            c: {x:-1, y:1, z:4}, 
+            d: {x:1,  y:1, z:4}, 
+            az: {x:-1, y:-1, z:6},
+            bz: {x:+1, y:-1, z:6},
+            cz: {x:-1, y:1, z:6}, 
+            dz: {x:1, y:1, z:6},
         }
 
 function w(p) {
@@ -62,43 +61,31 @@ function rx(p) {
 
 function u() {
     c.clearRect(0, 0, 320, 240)
-    scube = {}
+    t = {}
+
     Object.keys(cube).forEach(e => { 
         rx(cube[e])
-        scube[e] = w(cube[e])
+        t[e] = w(cube[e])
     })
 
-    p = [{p1: scube.bl, p2: scube.br},
-        {p1: scube.blz,p2: scube.brz}, 
-        {p1: scube.bl, p2: scube.tl}, 
-        {p1: scube.br, p2: scube.tr}, 
-        {p1: scube.tl, p2: scube.tr},
-        {p1: scube.br, p2: scube.brz},
-        {p1: scube.tr,  p2: scube.trz}, 
-        {p1: scube.trz, p2: scube.tlz},
-        {p1: scube.tlz, p2: scube.blz}, 
-        {p1: scube.trz, p2: scube.brz},
-        {p1: scube.tl, p2: scube.tlz}, 
-        {p1: scube.bl, p2: scube.blz}] 
+    p = [
+        [t.a,  t.b ],
+        [t.az, t.bz], 
+        [t.a,  t.c ], 
+        [t.b,  t.d ], 
+        [t.c,  t.d ],
+        [t.b,  t.bz],
+        [t.d,  t.dz], 
+        [t.dz, t.cz],
+        [t.cz, t.az], 
+        [t.dz, t.bz],
+        [t.c,  t.cz], 
+        [t.a,  t.az]] 
 
-    f1 = {p1: scube.bl, p2: scube.br}
-    f2 = {p1: scube.blz,p2: scube.brz} 
-    f3 = {p1: scube.bl, p2: scube.tl}  
-    f4 = {p1: scube.br, p2: scube.tr}
-    f5 = {p1: scube.tl, p2: scube.tr}
-    f6 = {p1: scube.br, p2: scube.brz}
-
-    f7 =  {p1: scube.tr,  p2: scube.trz} 
-    f8 =  {p1: scube.trz, p2: scube.tlz}
-    f9 =  {p1: scube.tlz, p2: scube.blz}  
-    f10 = {p1: scube.trz, p2: scube.brz}
-    f11 = {p1: scube.tl, p2: scube.tlz} 
-    f12 = {p1: scube.bl, p2: scube.blz} 
-
-    p.forEach(f => {
+    p.forEach(p => {
         c.beginPath()
-        c.moveTo(f.p1.x, f.p1.y)
-        c.lineTo(f.p2.x, f.p2.y)
+        c.moveTo(p[0].x, p[0].y)
+        c.lineTo(p[1].x, p[1].y)
         c.closePath()
         c.stroke()
     })
