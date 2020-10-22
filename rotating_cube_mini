@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<div class="p">
+    <canvas id="c" width="320" height="240">
+    </canvas>   
+</div>
+
+<style>
+.p {
+    width: 100%;
+    text-align: center;
+}
+
+canvas {
+    width: 320px;
+    height: 240px;
+}
+
+</style>
+
+<script>
+    c = document.getElementById("c").getContext("2d");
+
+    a = 2 * Math.PI / 360;
+
+    ca = Math.cos(a)
+    sa = Math.sin(a)
+
+    start = {x: 0, y: 0, z: 5, size: 2}
+
+    cube = {
+            bl: {x:-1, y:-1, z: 4},
+            br: {x:1, y:-1, z:4}, 
+            tl: {x:-1, y:+1, z:4}, 
+            tr: {x:1, y:+1, z:4}, 
+            blz: {x:-1, y:-1, z:6},
+            brz: {x:+1, y:-1, z:6},
+            tlz: {x:-1, y:+1, z:6}, 
+            trz: {x:+1, y:+1, z:6},
+        }
+
+function w(p) {
+    return { x: p.x / p.z * 320 + 160, 
+             y: p.y / p.z * 320 + 120
+        }
+}
+
+function rx(p) {
+    z = p.z - 5
+    y = p.y
+    x = p.x
+
+    p.y = y*ca - z*sa
+    p.z = y*sa + z*ca + 5
+
+    z = p.z - 5
+
+    p.x = x*ca + z*sa
+    p.z = -x*sa + z*ca + 5
+}
+
+function u() {
+    c.clearRect(0, 0, 320, 240)
+    scube = {}
+    Object.keys(cube).forEach(e => { 
+        rx(cube[e])
+        scube[e] = w(cube[e])
+    })
+
+    p = [{p1: scube.bl, p2: scube.br},
+        {p1: scube.blz,p2: scube.brz}, 
+        {p1: scube.bl, p2: scube.tl}, 
+        {p1: scube.br, p2: scube.tr}, 
+        {p1: scube.tl, p2: scube.tr},
+        {p1: scube.br, p2: scube.brz},
+        {p1: scube.tr,  p2: scube.trz}, 
+        {p1: scube.trz, p2: scube.tlz},
+        {p1: scube.tlz, p2: scube.blz}, 
+        {p1: scube.trz, p2: scube.brz},
+        {p1: scube.tl, p2: scube.tlz}, 
+        {p1: scube.bl, p2: scube.blz}] 
+
+    f1 = {p1: scube.bl, p2: scube.br}
+    f2 = {p1: scube.blz,p2: scube.brz} 
+    f3 = {p1: scube.bl, p2: scube.tl}  
+    f4 = {p1: scube.br, p2: scube.tr}
+    f5 = {p1: scube.tl, p2: scube.tr}
+    f6 = {p1: scube.br, p2: scube.brz}
+
+    f7 =  {p1: scube.tr,  p2: scube.trz} 
+    f8 =  {p1: scube.trz, p2: scube.tlz}
+    f9 =  {p1: scube.tlz, p2: scube.blz}  
+    f10 = {p1: scube.trz, p2: scube.brz}
+    f11 = {p1: scube.tl, p2: scube.tlz} 
+    f12 = {p1: scube.bl, p2: scube.blz} 
+
+    p.forEach(f => {
+        c.beginPath()
+        c.moveTo(f.p1.x, f.p1.y)
+        c.lineTo(f.p2.x, f.p2.y)
+        c.closePath()
+        c.stroke()
+    })
+   
+    requestAnimationFrame(u)
+} 
+
+u()
+    
+</script>
+</html>
