@@ -21,7 +21,7 @@ canvas {
 <script>
     c = document.getElementById("c").getContext("2d");
 
-    a = 2 * Math.PI / 360;
+    a = Math.PI / 180;
 
     ca = Math.cos(a)
     sa = Math.sin(a)
@@ -32,7 +32,7 @@ canvas {
             c: {x:-1, y:1, z:4}, 
             d: {x:1,  y:1, z:4}, 
             az: {x:-1, y:-1, z:6},
-            bz: {x:+1, y:-1, z:6},
+            bz: {x:1, y:-1, z:6},
             cz: {x:-1, y:1, z:6}, 
             dz: {x:1, y:1, z:6},
         }
@@ -62,7 +62,6 @@ function r(p) {
 
 function u() {
     c.clearRect(0, 0, 320, 240)
-    
 
     Object.keys(cube).forEach(e => { 
         r(cube[e])
@@ -83,13 +82,13 @@ function u() {
         [t.c,  t.cz], 
         [t.a,  t.az]] 
 
+    c.beginPath()
     p.forEach(p => {
-        c.beginPath()
         c.moveTo(p[0].x, p[0].y)
         c.lineTo(p[1].x, p[1].y)
-        c.closePath()
-        c.stroke()
     })
+    c.closePath()
+    c.stroke()
    
     requestAnimationFrame(u)
 } 
